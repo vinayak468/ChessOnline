@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Online</title>
+
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>♟ Chess Online</h1>
+
+    <div id="menu">
+        <button id="createBtn">Create Game</button>
+
+        <div class="join">
+            <input id="roomInput" placeholder="Enter room code">
+            <button id="joinBtn">Join Game</button>
+        </div>
+
+        <p id="message"></p>
+    </div>
+
+    <div id="game" class="hidden">
+
+        <div class="info">
+            <div>
+                Room:
+                <strong id="roomCode"></strong>
+            </div>
+
+            <div>
+                You are:
+                <strong id="playerColor"></strong>
+            </div>
+        </div>
+
+        <div class="captured-area">
+            <div class="captured-title">Captured by White</div>
+            <div id="capturedByWhite" class="captured-pieces"></div>
+        </div>
+
+        <div id="board"></div>
+
+        <div class="captured-area">
+            <div class="captured-title">Captured by Black</div>
+            <div id="capturedByBlack" class="captured-pieces"></div>
+        </div>
+
+        <p id="status">Waiting for opponent...</p>
+
+        <button id="newGameBtn">New Game</button>
+
+    </div>
+
+</div>
+
+<script src="/static/game.js"></script>
+
+</body>
+</html>
