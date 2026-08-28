@@ -6,7 +6,9 @@
     <title>Chess Online</title>
 
     <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
 </head>
 
@@ -14,14 +16,23 @@
 
 <div class="container">
 
-    <h1>♟ Chess Online</h1>
+    <header class="app-header">
+        <h1>♟ Chess Online</h1>
+        <p class="subtitle">Play real-time chess with your friends</p>
+    </header>
 
     <div id="menu">
-        <button id="createBtn">Create Game</button>
+        <div class="menu-card">
+            <button id="createBtn" class="primary-btn glow-green">Create Game</button>
+            
+            <div class="divider">
+                <span>or</span>
+            </div>
 
-        <div class="join">
-            <input id="roomInput" placeholder="Enter room code">
-            <button id="joinBtn">Join Game</button>
+            <div class="join">
+                <input id="roomInput" placeholder="Enter 6-char room code" maxlength="6">
+                <button id="joinBtn" class="primary-btn glow-blue">Join Game</button>
+            </div>
         </div>
 
         <p id="message"></p>
@@ -29,33 +40,72 @@
 
     <div id="game" class="hidden">
 
-        <div class="info">
-            <div>
-                Room:
-                <strong id="roomCode"></strong>
+        <div class="game-header">
+            <div class="room-info">
+                <span class="label">Room:</span>
+                <span id="roomCodeBadge" class="room-badge" title="Click to copy">
+                    <strong id="roomCode"></strong>
+                    <span id="copyIcon" class="copy-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </span>
+                    <span id="copyTooltip" class="copy-tooltip">Copy Code</span>
+                </span>
             </div>
 
-            <div>
-                You are:
-                <strong id="playerColor"></strong>
+            <div class="player-info">
+                <span class="label">Playing as:</span>
+                <span id="playerColorBadge" class="player-badge">
+                    <span class="color-dot"></span>
+                    <strong id="playerColor"></strong>
+                </span>
             </div>
         </div>
 
         <div class="captured-area">
-            <div class="captured-title">Captured by White</div>
+            <div class="captured-header">
+                <span class="captured-title">Captured by White</span>
+                <span class="captured-bar white-bar"></span>
+            </div>
             <div id="capturedByWhite" class="captured-pieces"></div>
         </div>
 
-        <div id="board"></div>
+        <div id="board-container">
+            <div id="board"></div>
+            
+            <!-- Pawn Promotion Modal -->
+            <div id="promotionModal" class="promotion-modal hidden">
+                <div class="promotion-backdrop"></div>
+                <div class="promotion-content">
+                    <h3>Promote Pawn</h3>
+                    <p class="promotion-sub">Select a piece to promote your pawn:</p>
+                    <div class="promotion-choices">
+                        <button class="promotion-btn" data-piece="q" title="Queen">♛</button>
+                        <button class="promotion-btn" data-piece="r" title="Rook">♜</button>
+                        <button class="promotion-btn" data-piece="b" title="Bishop">♝</button>
+                        <button class="promotion-btn" data-piece="n" title="Knight">♞</button>
+                    </div>
+                    <button id="cancelPromoBtn" class="promotion-cancel-btn">Cancel Move</button>
+                </div>
+            </div>
+        </div>
 
         <div class="captured-area">
-            <div class="captured-title">Captured by Black</div>
+            <div class="captured-header">
+                <span class="captured-title">Captured by Black</span>
+                <span class="captured-bar black-bar"></span>
+            </div>
             <div id="capturedByBlack" class="captured-pieces"></div>
         </div>
 
-        <p id="status">Waiting for opponent...</p>
+        <div class="status-card">
+            <span class="status-dot"></span>
+            <p id="status">Waiting for opponent...</p>
+        </div>
 
-        <button id="newGameBtn">New Game</button>
+        <button id="newGameBtn" class="primary-btn glow-slate">New Game</button>
 
     </div>
 
