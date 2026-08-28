@@ -727,3 +727,178 @@ body[data-turn-state="game-over"] .status-dot {
         min-height: 58px;
     }
 }
+
+/* ===== MODERN CHESS UI ===== */
+:root {
+  --board-light: #e3e8ed;
+  --board-dark: #53677b;
+  --highlight-select: #9b87f5;
+  --highlight-last-move: #8fa8a8;
+}
+
+body {
+  background:
+    radial-gradient(circle at 15% 0%, rgba(139,92,246,.16), transparent 34%),
+    radial-gradient(circle at 90% 15%, rgba(34,211,238,.10), transparent 30%),
+    linear-gradient(145deg, #080a0f, #10151d 55%, #080a0f);
+}
+
+.menu-card,
+.captured-area,
+.status-card {
+  background: rgba(19,24,32,.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,.09);
+  box-shadow: 0 20px 60px rgba(0,0,0,.35),
+              inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.menu-card {
+  border-radius: 24px;
+}
+
+.primary-btn {
+  border-radius: 14px;
+  min-height: 50px;
+  transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+}
+
+.primary-btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.glow-green {
+  background: linear-gradient(135deg,#8b5cf6,#6d28d9);
+  box-shadow: 0 8px 28px rgba(139,92,246,.28);
+}
+
+.glow-blue {
+  background: linear-gradient(135deg,#0891b2,#2563eb);
+}
+
+.glow-slate {
+  background: linear-gradient(135deg,#334155,#172033);
+}
+
+input {
+  min-height: 50px;
+  border-radius: 14px;
+  background: rgba(4,7,12,.72);
+}
+
+input:focus {
+  border-color: rgba(139,92,246,.75);
+  box-shadow: 0 0 0 4px rgba(139,92,246,.12);
+}
+
+/* Modern board frame */
+#board-container {
+  padding: 5px;
+  border-radius: 18px;
+  background: linear-gradient(145deg,
+    rgba(255,255,255,.13),
+    rgba(255,255,255,.025));
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.58),
+    0 0 0 1px rgba(255,255,255,.05);
+}
+
+#board {
+  border-radius: 13px;
+  overflow: hidden;
+}
+
+/* Modern board colours */
+.square.light {
+  background: #e3e8ed;
+}
+
+.square.dark {
+  background: #53677b;
+}
+
+.square.light:hover {
+  filter: brightness(1.04);
+}
+
+.square.dark:hover {
+  filter: brightness(1.08);
+}
+
+/* Selected / last move */
+.square.selected {
+  background: #9b87f5 !important;
+  box-shadow: inset 0 0 0 3px rgba(255,255,255,.3);
+}
+
+.square.last-move {
+  background: #8fa8a8 !important;
+}
+
+/* Sleeker chess pieces */
+.square {
+  font-family:
+    "Noto Sans Symbols 2",
+    "Segoe UI Symbol",
+    "DejaVu Sans",
+    sans-serif;
+  font-weight: 700;
+  line-height: 1;
+  text-rendering: geometricPrecision;
+}
+
+.white-piece {
+  color: #fffdf7;
+  text-shadow:
+    0 2px 0 rgba(30,36,43,.8),
+    0 4px 8px rgba(0,0,0,.5),
+    0 0 1px #111;
+}
+
+.black-piece {
+  color: #17202a;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.5),
+    0 3px 7px rgba(0,0,0,.4);
+}
+
+/* Room / player badges */
+.room-badge,
+.player-badge {
+  border-radius: 10px;
+  background: rgba(255,255,255,.055);
+  border-color: rgba(255,255,255,.1);
+}
+
+/* Status */
+.status-card {
+  border-radius: 14px;
+}
+
+@media (max-width: 560px) {
+  body {
+    padding: 12px 7px;
+  }
+
+  .menu-card {
+    padding: 24px 18px;
+    border-radius: 20px;
+  }
+
+  .room-info .label,
+  .player-info .label {
+    display: none;
+  }
+
+  #board-container {
+    margin-top: 10px;
+    padding: 4px;
+    border-radius: 15px;
+  }
+
+  .square {
+    font-size: clamp(30px, 10vw, 50px);
+  }
+}
