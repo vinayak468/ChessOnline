@@ -14,6 +14,10 @@ const statusElement = document.getElementById("status");
 const message = document.getElementById("message");
 const newGameBtn = document.getElementById("newGameBtn");
 
+// Nav connection indicator
+const connStatus = document.getElementById("connStatus");
+const connLabel = connStatus ? connStatus.querySelector(".conn-label") : null;
+
 let room = null;
 let myColor = null;
 let selectedSquare = null;
@@ -270,8 +274,39 @@ function showGame() {
 // Ensure Web Audio works on first click/tap
 document.body.addEventListener("click", () => Sound.init(), { once: true });
 
+// --- CONNECTION STATE ---
+function setConnState(state) {
+    if (!connStatus) return;
+    connStatus.setAttribute("data-state", state);
+    if (connLabel) {
+        connLabel.textContent =
+            state === "connected" ? "Live" :
+            state === "connecting" ? "Connecting" : "Offline";
+    }
+}
+
+setConnState("connecting");
+
+socket.on("connect", () => {
+    setConnState("connected");
+    if (message && message.textContent === "Connecting to server…") {
+        message.textContent = "";
+    }
+});
+
+socket.on("disconnect", () => setConnState("disconnected"));
+socket.on("connect_error", () => setConnState("disconnected"));
+
 createBtn.onclick = () => {
     Sound.init();
+
+    if (!socket.connected) {
+        message.textContent = "Connecting to server…";
+        // Socket.IO buffers this emit and flushes it once connected.
+        socket.emit("create_game");
+        return;
+    }
+
     socket.emit("create_game");
 };
 
@@ -282,6 +317,10 @@ joinBtn.onclick = () => {
     if (!code) {
         message.textContent = "Enter a room code.";
         return;
+    }
+
+    if (!socket.connected) {
+        message.textContent = "Connecting to server…";
     }
 
     socket.emit("join_game", {

@@ -1,48 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chess Online</title>
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="Play real-time online chess with your friends. Create a room, share the code, and play.">
+    <title>Chess — Real-time Online Chess</title>
 
     <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
 
-<div class="container">
+<!-- Vercel-style glassmorphic navigation -->
+<nav class="nav">
+    <div class="nav-inner">
+        <a class="nav-brand" href="/">
+            <span class="nav-logo" aria-hidden="true">
+                <svg width="20" height="18" viewBox="0 0 76 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="currentColor"/>
+                </svg>
+            </span>
+            <span class="nav-title">Chess</span>
+            <span class="nav-badge">Online</span>
+        </a>
 
-    <header class="app-header">
-        <h1>♟ Chess Online</h1>
-        <p class="subtitle">Play real-time chess with your friends</p>
-    </header>
+        <div class="nav-links">
+            <a href="#play" class="nav-link">Play</a>
+            <a href="https://www.chess.com/learn-how-to-play-chess" target="_blank" rel="noopener" class="nav-link">Rules</a>
+            <a href="https://github.com/vinayak468/ChessOnline" target="_blank" rel="noopener" class="nav-link">GitHub</a>
+        </div>
+
+        <div class="nav-actions">
+            <span id="connStatus" class="conn-pill" title="Connection status">
+                <span class="conn-dot"></span>
+                <span class="conn-label">Live</span>
+            </span>
+        </div>
+    </div>
+</nav>
+
+<main class="container" id="play">
 
     <div id="menu">
+        <header class="hero">
+            <span class="hero-eyebrow">Real-time multiplayer</span>
+            <h1 class="hero-title">Play chess with anyone,<br>anywhere.</h1>
+            <p class="hero-subtitle">Create a private room, share the code, and start a live match in seconds.</p>
+        </header>
+
         <div class="menu-card">
-            <button id="createBtn" class="primary-btn glow-green">Create Game</button>
-            
-            <div class="divider">
-                <span>or</span>
-            </div>
+            <button id="createBtn" class="btn btn-primary">
+                <span>Create Game</span>
+                <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+
+            <div class="divider"><span>or join a room</span></div>
 
             <div class="join">
-                <input id="roomInput" placeholder="Enter 6-char room code" maxlength="6">
-                <button id="joinBtn" class="primary-btn glow-blue">Join Game</button>
+                <input id="roomInput" placeholder="ENTER 6-CHAR CODE" maxlength="6" autocomplete="off" spellcheck="false">
+                <button id="joinBtn" class="btn btn-secondary">Join Game</button>
             </div>
         </div>
 
         <p id="message"></p>
+
+        <ul class="feature-row">
+            <li><span class="feature-k">Instant</span><span class="feature-v">No sign-up required</span></li>
+            <li><span class="feature-k">Private</span><span class="feature-v">Room-code matchmaking</span></li>
+            <li><span class="feature-k">Real-time</span><span class="feature-v">WebSocket sync</span></li>
+        </ul>
     </div>
 
     <div id="game" class="hidden">
 
         <div class="game-header">
             <div class="room-info">
-                <span class="label">Room:</span>
+                <span class="label">Room</span>
                 <span id="roomCodeBadge" class="room-badge" title="Click to copy">
                     <strong id="roomCode"></strong>
                     <span id="copyIcon" class="copy-icon">
@@ -56,7 +94,7 @@
             </div>
 
             <div class="player-info">
-                <span class="label">Playing as:</span>
+                <span class="label">Playing as</span>
                 <span id="playerColorBadge" class="player-badge">
                     <span class="color-dot"></span>
                     <strong id="playerColor"></strong>
@@ -74,7 +112,7 @@
 
         <div id="board-container">
             <div id="board"></div>
-            
+
             <!-- Pawn Promotion Modal -->
             <div id="promotionModal" class="promotion-modal hidden">
                 <div class="promotion-backdrop"></div>
@@ -105,11 +143,11 @@
             <p id="status">Waiting for opponent...</p>
         </div>
 
-        <button id="newGameBtn" class="primary-btn glow-slate">New Game</button>
+        <button id="newGameBtn" class="btn btn-ghost">New Game</button>
 
     </div>
 
-</div>
+</main>
 
 <script src="/static/game.js"></script>
 
